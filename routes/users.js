@@ -1,9 +1,10 @@
 let express = require('express');
 let jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
-const {v4: uuidv4} = require('uuid')
+const {v4: uuidv4} = require('uuid');
 const saltRound = 10;
 let models = require('../models/index');
+const { isLoggedIn } = require('../helpers/utils');
 
 require('dotenv').config()
 
@@ -23,7 +24,8 @@ router.post('/register', async function(req, res, next){
     name,
     email,
     password,
-    phone
+    phone,
+    secret: uuidv4()
   })
 
   res.status(201).json({
@@ -47,7 +49,7 @@ router.post('/login', async function(req, res, next){
   if (!bcrypt.compareSync(password, user.password)) {
     return res.status(400).json({message: 'Password not match'})
   } 
-  let token = jwt.sign({email}, process.env.SECRET_KEY, {expiresIn: '1h'})
+  let token = jwt.sign({email}, user.secret, {expiresIn: '1h'})
   res.json({
     token
   })
@@ -55,6 +57,20 @@ router.post('/login', async function(req, res, next){
   console.error(err)
   return res.status(500).json(err)
 }
+})
+
+router.get('/logout', isLoggedIn, async function(req, res, next){
+  try {
+  let token = req.headers['authorization'].replace('Bearer ', '')
+  let decoded = jwt.decode(token)
+  let user = await models.User.update({secret: uuidv4()}, {where: {email: decoded.email}})
+  res.json({
+    message: "Logout success"
+  })
+  } catch (err){
+    console.error(err)
+    return res.status(500).json(err)
+  }
 })
 
 

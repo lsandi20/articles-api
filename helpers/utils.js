@@ -1,9 +1,13 @@
 const jsonwebtoken = require('jsonwebtoken');
+const models = require('../models/index')
 
 module.exports = {
-    isLoggedIn: function(req, res, next) {
+    isLoggedIn: async function(req, res, next) {
         try {
-            jsonwebtoken.verify(req.headers['authorization'].replace('Bearer ', ''), process.env.SECRET_KEY, (err)=> {
+            let token = req.headers['authorization'].replace('Bearer ', '')
+            let decoded = jsonwebtoken.decode(token)
+            let user = await models.User.findOne({where: {email: decoded.email}})
+            jsonwebtoken.verify(token, user.secret, (err)=> {
                 if (err) {
                     return res.status(401).json({message: 'Unauthorized'})
                 }
