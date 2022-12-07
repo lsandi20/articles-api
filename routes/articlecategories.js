@@ -1,8 +1,8 @@
-var express = require('express');
+let express = require('express');
 const {v4: uuidv4} = require('uuid')
 let models = require('../models/index');
 let { isLoggedIn } = require('../helpers/utils')
-var router = express.Router();
+let router = express.Router();
 
 router.post('/create', isLoggedIn, async function(req, res, next){
   let {title} = req.body

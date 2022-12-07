@@ -1,5 +1,5 @@
-var express = require('express');
-var jwt = require('jsonwebtoken')
+let express = require('express');
+let jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const {v4: uuidv4} = require('uuid')
 const saltRound = 10;
@@ -7,7 +7,7 @@ let models = require('../models/index');
 
 require('dotenv').config()
 
-var router = express.Router();
+let router = express.Router();
 
 router.post('/register', async function(req, res, next){
   let {name, email, password, phone} = req.body

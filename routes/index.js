@@ -1,11 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var usersRouter = require('./users');
-var articleCategoryRouter = require('./articlecategories') 
+module.exports = function(dirname){
+let express = require('express');
+let router = express.Router();
+let usersRouter = require('./users');
+let articleCategoryRouter = require('./articlecategories') 
+let articleRouter = require('./articles')(dirname)
 
 router.use('/api/auth', usersRouter)
 router.use('/api/article-category', articleCategoryRouter)
+router.use('/api/article', articleRouter)
 
-module.exports = router;
-
+return router;
+}
 
