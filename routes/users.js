@@ -10,6 +10,80 @@ require('dotenv').config()
 
 let router = express.Router();
 
+/**
+ * @openapi
+ * tags: 
+ *   name: Auth
+ *   description: API for authentication
+ * /api/auth/register:
+ *   post:
+ *     description: Register new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Budi"
+ *              email:
+ *                type: string
+ *                example: "budi@email.com"
+ *              password:
+ *                type: string
+ *                example: "pAssw0rd"
+ *              phone:
+ *                type: string
+ *                example: "0832131321"
+ *     responses:
+ *       201:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                      type: string
+ *                      example: "fc884b03-70a2-42de-9a71-0ff7062fa415"
+ *                     name:
+ *                       type: string
+ *                       example: "Budi"
+ *                     email:
+ *                       type: string
+ *                       example: "budi@email.com"
+ *                     password:
+ *                       type: string
+ *                       example: "$2b$10$AEuMDtn0nhOUkuJFmcqDO.eomz2TdrZ6lUGMOpV/tz6PB9iRyfejK"
+ *                     phone:
+ *                       type: string
+ *                       example: "0832131321"
+ *                     updatedAt:
+ *                       type: timestamp
+ *                       example: "2022-12-08T04:01:56.436Z"
+ *                     createdAt:
+ *                       type: timestamp
+ *                       example: "2022-12-08T04:01:56.436Z"
+ *                 message: 
+ *                   type: string
+ *                   example: "Register success"
+ *       400:
+ *        content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message: 
+ *                 type: string
+ *                 example: "User email already exists"
+ *       500:
+ *         description: Internal Server Error
+ */   
+
 router.post('/register', async function(req, res, next){
   let {name, email, password, phone} = req.body
   try {
@@ -38,6 +112,41 @@ router.post('/register', async function(req, res, next){
 }
 })
 
+/**
+ * @openapi
+ * /api/auth/login:
+ *   post:
+ *     description: Login
+ *     tags: [Auth]
+ *     requestBody:
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              email:
+ *                type: string
+ *                example: "budi@email.com"
+ *              password:
+ *                type: string
+ *                example: "pAssw0rd"
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token: 
+ *                   type: string
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJ1ZGlAZW1haWwuY29tIiwiaWF0IjoxNjcwNDczMjYxLCJleHAiOjE2NzA0NzY4NjF9.55OiqcjNes73GzDfSCTp9VBtUp2xFTSQ-6TTB4B0DRQ"
+ *       400:
+ *         description: User email not found or password not match
+ *       500:
+ *         description: Internal Server Error
+ */   
+
+
 router.post('/login', async function(req, res, next){
   let {email, password} = req.body
   try {
@@ -58,6 +167,39 @@ router.post('/login', async function(req, res, next){
   return res.status(500).json(err)
 }
 })
+
+/**
+ * @openapi
+ * /api/auth/logout:
+ *   get:
+ *     description: Logout
+ *     tags: [Auth]
+ *     requestBody:
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              email:
+ *                type: string
+ *                example: "budi@email.com"
+ *              password:
+ *                type: string
+ *                example: "pAssw0rd"
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: 
+ *                   type: string
+ *                   example: "Logout success"
+ *       500:
+ *         description: Internal Server Error
+ */   
+
 
 router.get('/logout', isLoggedIn, async function(req, res, next){
   try {
