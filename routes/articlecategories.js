@@ -135,7 +135,7 @@ router.post('/create', isLoggedIn, async function(req, res, next){
  *         description: Internal Server Error
  */   
 
-router.get('/', isLoggedIn, async function(req, res, next){
+router.get('/', async function(req, res, next){
   try {
   let articleCategories = await models.ArticleCategory.findAll()
   res.json({
@@ -194,7 +194,7 @@ router.get('/', isLoggedIn, async function(req, res, next){
  *         description: Internal Server Error
  */   
 
-router.get('/:id', isLoggedIn, async function(req, res, next){
+router.get('/:id', async function(req, res, next){
     const id = req.params.id
     try {
     let articleCategory = await models.ArticleCategory.findOne({where: {id}})

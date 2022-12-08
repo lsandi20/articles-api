@@ -223,7 +223,7 @@ router.post('/create', isLoggedIn, async function(req, res, next){
  *         description: Internal Server Error
  */   
 
-router.get('/', isLoggedIn, async function(req, res, next){
+router.get('/', async function(req, res, next){
   let {search, size = 1, page = 1} = req.query
   let offset = (page - 1) * size
   let options = {
@@ -317,7 +317,7 @@ router.get('/', isLoggedIn, async function(req, res, next){
  */   
 
 
-router.get('/:id', isLoggedIn, async function(req, res, next){
+router.get('/:id', async function(req, res, next){
     const id = req.params.id
     try {
     let article = await models.Article.findOne({where: {id}})
