@@ -3,11 +3,12 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let fileupload = require('express-fileupload');
+let cors = require('cors')
 
 let indexRouter = require('./routes/index')(__dirname);
 
 let app = express();
-
+app.use(cors())
 app.use(fileupload())
 app.use(logger('dev'));
 app.use(express.json());
