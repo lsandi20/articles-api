@@ -5,9 +5,9 @@ let usersRouter = require('./users');
 let articleCategoryRouter = require('./articlecategories') 
 let articleRouter = require('./articles')(dirname)
 
-router.use('/api/auth', usersRouter)
-router.use('/api/article-category', articleCategoryRouter)
-router.use('/api/article', articleRouter)
+router.use('/auth', usersRouter)
+router.use('/article-category', articleCategoryRouter)
+router.use('/article', articleRouter)
 
 return router;
 }
