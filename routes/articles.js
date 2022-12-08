@@ -224,7 +224,7 @@ router.post('/create', isLoggedIn, async function(req, res, next){
  */   
 
 router.get('/', async function(req, res, next){
-  let {search, size = 1, page = 1} = req.query
+  let {search, size = 5, page = 1} = req.query
   let offset = (page - 1) * size
   let options = {
     limit: size,
