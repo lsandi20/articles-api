@@ -104,6 +104,11 @@ let router = express.Router();
 
 router.post('/create', isLoggedIn, async function(req, res, next){
   let {title, short_description, description, category_id, is_visible} = req.body
+  if(!is_visible) {
+    is_visible = false
+  } else {
+    is_visible = true
+  }
   try {
   let currentArticle = await models.Article.findOne({where: {title}})
   if (currentArticle) {
